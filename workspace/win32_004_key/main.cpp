@@ -1,6 +1,56 @@
 #include <windows.h>
+#include <fstream>
+#include <boost/format.hpp>
 
 #include "sysmets.h"
+
+
+
+class SimpleFileLog
+{
+public:
+	SimpleFileLog():fout("win32.log", std::ios_base::binary | std::ios_base::app)
+	{
+	};
+	std::ofstream& operator<<(std::string str)
+	{
+		fout << str;
+		return fout;
+	};
+	SimpleFileLog& info(std::string str)
+	{
+		fout << str;
+		return *this;
+	};
+	SimpleFileLog& infoEndl(std::string str)
+	{
+		fout << str;
+		fout << std::endl;
+		fout.flush();
+		return *this;
+	};
+	SimpleFileLog& infoEndl(boost::format& p_format)
+	{
+		fout << p_format.str();
+		fout << std::endl;
+		fout.flush();
+		return *this;
+	};
+	SimpleFileLog& endl()
+	{
+		fout << std::endl;
+		fout.flush();
+		return *this;
+	};
+private:
+	std::ofstream fout;
+};
+
+
+static SimpleFileLog _log;
+
+
+
 
 LRESULT CALLBACK WndProc (HWND, UINT, WPARAM, LPARAM) ;
 
@@ -60,7 +110,7 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	PAINTSTRUCT   ps ;
 	SCROLLINFO    si ;
 	TCHAR         szBuffer[10] ;
-	
+
 
 	switch (message)
 	{
