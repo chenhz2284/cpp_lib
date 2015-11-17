@@ -11,7 +11,7 @@
 class SimpleFileLog
 {
 public:
-	SimpleFileLog():fout("win32_test2.log", std::ios_base::binary | std::ios_base::app)
+	SimpleFileLog():fout("win32.log", std::ios_base::binary | std::ios_base::app)
 	{
 	};
 	std::ofstream& operator<<(std::string str)
@@ -48,6 +48,7 @@ private:
 	std::ofstream fout;
 };
 
+SimpleFileLog _log;
 
 int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdShow)
 {
